@@ -1,0 +1,16 @@
+   R  1920 1080
+F 220,100,50
+C 225,    30,01
+NO /home/alexander/CLionProjects/cub/textures/no.xpm
+SO /home/alexander/CLionProjects/cub/textures/so.xpm
+EA /home/alexander/CLionProjects/cub/textures/ea.xpm
+WE /home/alexander/CLionProjects/cub/textures/we.xpm
+S /home/alexander/CLionProjects/cub/textures/obj.xpm
+
+1111111
+1000201
+1000001
+100E001
+1000001
+1000001
+1111111
