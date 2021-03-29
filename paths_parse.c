@@ -29,18 +29,16 @@ int check_paths (t_tab *tab, char *str, int *flag)
 
 	fd = 0;
 	head_path = str;
-	while (*str)
+	if (*flag == 1)
+		return (put_error("\nERROR\nDuplicate Path.\n"));
+	while (str && *str)
 		str++;
-//	--str;
-//	--str;
-//	--str;
-//	printf("%c", *(str));
-	if (*(--str) == 'm' && *(--str) == 'p' && *(--str) == 'x' && *(--str) == '.')
+	if (head_path && *(--str) == 'm' && *(--str) == 'p' && *(--str) == 'x' && *(--str) == '.')
 		if ((fd = open(head_path, O_RDONLY)) > 0)
 		{
 			close(fd);
 			return (*flag = 1);
 		}
 	close(fd);
-	return (tab->check_flag = 0);
+	return (tab->check_flag = put_error("\nERROR\nWrong Path.\n"));
 }

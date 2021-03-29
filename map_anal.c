@@ -19,8 +19,10 @@ int rude_anal(t_tab *tab, char *str, char *right)
 				break ;
 			right++;
 		}
-		if (*right == '\0' || tab->iters.dub > 1)
-			return (tab->check_flag = 0);
+		if (*right == '\0')
+			return (tab->check_flag = put_error("\nERROR\nInvalid Map\n"));
+		if (tab->iters.dub > 1)
+			return (tab->check_flag = put_error("\nERROR\nDouble Personage\n"));
 		str++;
 	}
 	return (1);
@@ -30,10 +32,12 @@ int	map_anal(t_tab *tab)
 {
 	int i;
 	int j;
+	char *err;
 
 	i = 0;
+	err = "\nERROR\nInvalid Map.\n";
 	if (tab->iters.dub == 0)
-		return (tab->check_flag = 0);
+		return (tab->check_flag = put_error(err));
 	while (i < tab->lst_size)
 	{
 		j = 0;
@@ -42,7 +46,7 @@ int	map_anal(t_tab *tab)
 			if (tab->a.arr[i][j] == 32)
 			{
 				if (hard_anal(tab, i, j) == -1)
-					return (-1 + (tab->check_flag = 0));
+					return (-1 + (tab->check_flag = put_error(err)));
 			}
 			j++;
 		}

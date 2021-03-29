@@ -19,22 +19,12 @@ int ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
 	while (tab->check_flag && get_count(tab) != 8 && get_next_line(fd, &line))
 	{
 		parse_param(tab, line);
-//		printf("%d\t", parse_param(&tab, line));
-//		printf("%s\n", line);
 		free(line);
 		line = NULL;
 	}
-
-//	if (line)
-//		free(line);
-
-//	fd = 0;
-	//parse_map(&tab, line, &map)
 	while (tab->check_flag && get_next_line(fd, &line))
 	{
 		parse_map(tab, line, map);
-//		printf("%d\t", parse_map(&tab, line, &map));
-//		printf("%s\n", line);
 	}
 	if (tab->check_flag)
 		parse_map(tab, line, map);
@@ -57,7 +47,7 @@ int main(int argc, char **argv)
 	how_list_size(&tab, map);
 	printf ("\nmem_check %d\n", mem_for_map(&tab));
 	map_to_array(&tab, map);
-	map_anal(&tab);
+//	map_anal(&tab);
 	printf ("\nhard_anal %d\n", map_anal(&tab));
 	printf("\nDUB %d\n", tab.iters.dub);
 	printf("\nCHEAK_FLAG %d\n", tab.check_flag);
@@ -74,6 +64,9 @@ int main(int argc, char **argv)
 	{
 		printf("=====>%s|\n", tab.a.arr[i]);
 	}
+
+//	TODO Возвращает Invalid Map. вместо Invalid Path.
+
 //	TODO Очистка списка
 	free_list(&map);
 
