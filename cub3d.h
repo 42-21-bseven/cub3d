@@ -5,6 +5,73 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "minilibx/mlx.h"
+# include <math.h>
+# define W tab->prms.rsltn.x
+# define H tab->prms.rsltn.y
+# define WORLDMAP tab.a.arr
+# define WWORLDMAP tab->a.arr
+# define screenWidth 640
+# define screenHeight 480
+# define texWidth 64
+# define texHeight 64
+# define mapWidth 24
+# define mapHeight 24
+//# define rotSpeed (0.05)
+
+
+typedef struct	s_data
+{
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	void		*mlx;
+	void		*win;
+}				t_data;
+
+typedef struct	s_ray
+{
+	double		cameraX; // = 2 * x / (double)w - 1; //x-coordinate in camera space
+	double		rayDirX; // = dirX + planeX*cameraX;
+	double		rayDirY; // = dirY + planeY*cameraX;
+	int			mapX; // = int(posX);
+	int			mapY; // = int(posY);
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX; // = std::abs(1 / rayDirX);
+	double		deltaDistY; // = std::abs(1 / rayDirY);
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			color;
+	int			hit; // = 0; //was there a wall hit?
+	int			side; //was a NS or a EW wall hit?
+	int			lineHeight; // = (int)(h / perpWallDist);
+	int			drawStart; // = -lineHeight / 2 + h / 2;
+	int			drawEnd; // = lineHeight / 2 + h / 2;
+	int			texNum; // = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+	double		wallX; //where exactly the wall was hit
+	int			texX; // = int(wallX * double(texWidth));
+	double		step; // = 1.0 * texHeight / lineHeight;
+	double		texPos; // = (drawStart - h / 2 + lineHeight / 2) * step;
+	int			texY; // = (int)texPos & (texHeight - 1);
+	double		frameTime; //= (time - oldTime) / 1000.0; //frametime is the time this frame has taken, in seconds
+	double		moveSpeed; // = frameTime * 5.0; //the constant value is in squares/second
+	double		rotSpeed; // = frameTime * 3.0; //the constant value is in radians/second
+	double		oldDirX; // = dirX;
+	double		oldPlaneX; // = planeX;
+}				t_ray;
+
+typedef struct	s_pers
+{
+	double		posX;
+	double		posY;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
+}				t_pers;
 
 typedef struct		s_clrs
 {
@@ -75,6 +142,9 @@ typedef struct		s_tab
 	int		lst_len;
 	int		lst_size;
 	t_array	a;
+	t_data data;
+	t_ray ray;
+	t_pers pers;
 }					t_tab;
 
 void				cut_space(char **str);
@@ -107,6 +177,8 @@ int					hard_anal(t_tab *tab, int i, int j);
 void				ft_initial(t_tab *tab);
 void				free_list(t_list **head);
 void				free_struct(t_tab *tab);
+
+int		draw(t_tab *tab);
 
 #endif
 

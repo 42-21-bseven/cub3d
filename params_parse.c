@@ -21,11 +21,11 @@ int parse_param (t_tab *tab, char *line)
 				return (snd_lit_check(tab, line));
 			else
 				return (-1 + (tab->check_flag =
-						put_error("\nERROR\nInvalid Path.\n")));
+						put_error("\nERROR!\nInvalid Path.\n")));
 		}
 		else
 			return (-1 + (tab->check_flag =
-					put_error("\nERROR\nInvalid Path.\n")));
+					put_error("\nERROR!\nInvalid Path.\n")));
 	}
 }
 
@@ -33,7 +33,7 @@ int parse_rsltn (t_tab *tab, char **str)
 {
 	char *err;
 
-	err = "\nERROR\nInvalid Resolution.\n";
+	err = "\nERROR!\nInvalid Resolution.\n";
 	if (*(++(*str)) != 32 || tab->flags.rsltn == 1)
 		return (-1 + (tab->check_flag = put_error(err)));
 	if (ft_isdigit(*(++(*str))) == 1)
@@ -64,7 +64,7 @@ int parse_clrs_f (t_tab *tab, char **str)
 {
 	char *err;
 
-	err = "\nERROR\nFloor Color Invalid.\n";
+	err = "\nERROR!\nFloor Color Invalid.\n";
 	if (*(++(*str)) != 32 || tab->flags.floor == 1)
 		return (-1 + (tab->check_flag = put_error(err)));
 	if (ft_isdigit(*(++(*str))) == 1)
@@ -92,7 +92,7 @@ int parse_clrs_c (t_tab *tab, char **str)
 {
 	char *err;
 
-	err = "\nERROR\nCeil Color Invalid.\n";
+	err = "\nERROR!\nCeil Color Invalid.\n";
 	if (*(++(*str)) != 32 || tab->flags.ceil == 1)
 		return (-1 + (tab->check_flag = put_error(err)));
 	if (ft_isdigit(*(++(*str))) == 1)

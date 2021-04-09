@@ -11,7 +11,7 @@ char *get_path(char *line)
 		return (0);
 	line++;
 	end = line;
-	while (*end && *end != 32)
+	while (*end)
 		end++;
 	*end = '\0';
 	tmp = calloc((ft_strlen(line) + 1), sizeof (char));
@@ -30,7 +30,7 @@ int check_paths (t_tab *tab, char *str, int *flag)
 	fd = 0;
 	head_path = str;
 	if (*flag == 1)
-		return (put_error("\nERROR\nDuplicate Path.\n"));
+		return (put_error("\nERROR!\nDuplicate Path.\n"));
 	while (str && *str)
 		str++;
 	if (head_path && *(--str) == 'm' && *(--str) == 'p' && *(--str) == 'x' && *(--str) == '.')
@@ -40,5 +40,5 @@ int check_paths (t_tab *tab, char *str, int *flag)
 			return (*flag = 1);
 		}
 	close(fd);
-	return (tab->check_flag = put_error("\nERROR\nWrong Path.\n"));
+	return (tab->check_flag = put_error("\nERROR!\nWrong Path.\n"));
 }
