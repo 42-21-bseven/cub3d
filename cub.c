@@ -3,7 +3,7 @@
 
 int check_some (t_tab *tab, char **str)
 {
-//	while ()
+	while ()
 	return (0);
 }
 
@@ -38,32 +38,94 @@ void            my_mlx_pixel_put(t_tab *tab, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int		key_press(int key, t_tab *tab)
+void		color_convert(t_tab *tab)
+{
+	tab->prms.clrs.floor_res = (tab->prms.clrs.floor_r << 16 | tab->prms.clrs.floor_g << 8 | tab->prms.clrs.floor_b);
+	tab->prms.clrs.ceil_res = (tab->prms.clrs.ceil_r << 16 | tab->prms.clrs.ceil_g << 8 | tab->prms.clrs.ceil_b);
+}
+
+void	draw_floor_ceil(t_tab *tab)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+
+	while (y < tab->prms.rsltn.y/2)
+	{
+		while (x < tab->prms.rsltn.x)
+		{
+			my_mlx_pixel_put(tab, x, y, tab->prms.clrs.ceil_res);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	while (y < tab->prms.rsltn.y)
+	{
+		while (x < tab->prms.rsltn.x)
+		{
+			my_mlx_pixel_put(tab, x, y, tab->prms.clrs.floor_res);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
+
+int		ft_press(int key, t_tab *tab)
+{
+	if (key == 65362)
+		tab->move.up = 1;
+	if (key == 65364)
+		tab->move.down = 1;
+	if (key == 65363)
+		tab->move.right = 1;
+	if (key == 65361)
+		tab->move.left = 1;
+	printf("KEY %d\n", key);
+}
+
+int		ft_unpress(int key, t_tab *tab)
+{
+	if (key == 65362)
+		tab->move.up = 0;
+	if (key == 65364)
+		tab->move.down = 0;
+	if (key == 65363)
+		tab->move.right = 0;
+	if (key == 65361)
+		tab->move.left = 0;
+}
+
+int		for_move(t_tab *tab)
 {
 	double rotSpeed;
 
 	rotSpeed = 0.05;
-	printf("KEY %d\n", key);
-	if(key == 65362)
+//	printf("KEY %d\n", key);
+	if(tab->move.up)
 	{
-		if(tab->a.arr[(int)(tab->pers.posX + tab->pers.dirX * rotSpeed)][(int)(tab->pers.posY)] != '1')
+		if(tab->a.arr[(int)(tab->pers.posX + tab->pers.dirX * rotSpeed)][(int)(tab->pers.posY)] != '1' && tab->a.arr[(int)(tab->pers.posX + tab->pers.dirX * rotSpeed)][(int)(tab->pers.posY)] != '2')
 			tab->pers.posX += tab->pers.dirX * rotSpeed;
-		if(tab->a.arr[(int)(tab->pers.posX)][(int)(tab->pers.posY + tab->pers.dirY * rotSpeed)] != '1')
+		if(tab->a.arr[(int)(tab->pers.posX)][(int)(tab->pers.posY + tab->pers.dirY * rotSpeed)] != '1' && tab->a.arr[(int)(tab->pers.posX)][(int)(tab->pers.posY + tab->pers.dirY * rotSpeed)] != '2')
 			tab->pers.posY += tab->pers.dirY * rotSpeed;
 		write(1, "test\n", 5);
 	}
 	//move backwards if no wall behind you
-	if(key == 65364)
+	if(tab->move.down)
 	{
-		if(tab->a.arr[(int)(tab->pers.posX - tab->pers.dirX * rotSpeed)][(int)(tab->pers.posY)] != '1')
+		if(tab->a.arr[(int)(tab->pers.posX - tab->pers.dirX * rotSpeed)][(int)(tab->pers.posY)] != '1' && tab->a.arr[(int)(tab->pers.posX - tab->pers.dirX * rotSpeed)][(int)(tab->pers.posY)] != '2')
 			tab->pers.posX -= tab->pers.dirX * rotSpeed;
-		if(tab->a.arr[(int)(tab->pers.posX)][(int)(tab->pers.posY - tab->pers.dirY * rotSpeed)] != '1')
+		if(tab->a.arr[(int)(tab->pers.posX)][(int)(tab->pers.posY - tab->pers.dirY * rotSpeed)] != '1' && tab->a.arr[(int)(tab->pers.posX)][(int)(tab->pers.posY - tab->pers.dirY * rotSpeed)] != '2')
 			tab->pers.posY -= tab->pers.dirY * rotSpeed;
 		write(1, "test2\n", 6);
 	}
 	//rotate to the right
-	if (key == 65361)
+	if (tab->move.right)
 	{
+		rotSpeed = 0.025;
 		//both camera direction and camera plane must be rotated
 		tab->ray.oldDirX = tab->pers.dirX;
 		tab->pers.dirX = tab->pers.dirX * cos(-rotSpeed) - tab->pers.dirY * sin(-rotSpeed);
@@ -73,8 +135,9 @@ int		key_press(int key, t_tab *tab)
 		tab->pers.planeY = tab->ray.oldPlaneX * sin(-rotSpeed) + tab->pers.planeY * cos(-rotSpeed);
 	}
 	//rotate to the left
-	if (key == 65363)
+	if (tab->move.left)
 	{
+		rotSpeed = 0.025;
 		//both camera direction and camera plane must be rotated
 		tab->ray.oldDirX = tab->pers.dirX;
 		tab->pers.dirX = tab->pers.dirX * cos(rotSpeed) - tab->pers.dirY * sin(rotSpeed);
@@ -83,6 +146,7 @@ int		key_press(int key, t_tab *tab)
 		tab->pers.planeX = tab->pers.planeX * cos(rotSpeed) - tab->pers.planeY * sin(rotSpeed);
 		tab->pers.planeY = tab->ray.oldPlaneX * sin(rotSpeed) + tab->pers.planeY * cos(rotSpeed);
 	}
+	draw_floor_ceil(tab);
 	draw(tab);
 	return (0);
 	//rotate to the right
@@ -91,8 +155,8 @@ int		key_press(int key, t_tab *tab)
 int		draw(t_tab *tab)
 {
 	int x = -1;
-	W = 500;
-	H = 500;
+	//	W = 800;
+	//	H = 600;
 	while (++x < W)
 	{
 		tab->ray.cameraX = 2 * x / (double)W - 1; //x-coordinate in camera space
@@ -145,7 +209,7 @@ int		draw(t_tab *tab)
 				tab->ray.side = 1;
 			}
 			//Check if ray has hit a wall
-			if (WWORLDMAP[tab->ray.mapY][tab->ray.mapX] == '1') tab->ray.hit = 1;
+			if (WWORLDMAP[tab->ray.mapX][tab->ray.mapY] == '1') tab->ray.hit = 1;
 		}
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if (tab->ray.side == 0)
@@ -168,7 +232,7 @@ int		draw(t_tab *tab)
 		if(tab->ray.drawEnd >= H) tab->ray.drawEnd = H - 1;
 
 		//texturing calculations
-		tab->ray.texNum = WWORLDMAP[tab->ray.mapY][tab->ray.mapX] - 1; //1 subtracted from it so that texture 0 can be used!
+		tab->ray.texNum = WWORLDMAP[tab->ray.mapX][tab->ray.mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 
 		//calculate value of wallX
 		tab->ray.wallX; //where exactly the wall was hit
@@ -196,12 +260,12 @@ int		draw(t_tab *tab)
 			tab->ray.texPos += tab->ray.step;
 			if(tab->ray.side == 1) tab->ray.color = 0xff00ff; // (tab->ray.color >> 1) & 8355711;
 //			printf("x - %d, y - %d\n", x, y);
-			my_mlx_pixel_put(tab, x, y, 0xff0000); // tab->ray.color);
+			my_mlx_pixel_put(tab, x, y, tab->ray.color);
 		}
 	}
 	mlx_put_image_to_window(tab->data.mlx, tab->data.win, tab->data.img, 0, 0);
 	mlx_destroy_image(tab->data.mlx, tab->data.img);
-	tab->data.img = mlx_new_image(tab->data.mlx, 500, 500);
+	tab->data.img = mlx_new_image(tab->data.mlx, 800, 600);
 	tab->data.addr = mlx_get_data_addr(tab->data.img, &tab->data.bits_per_pixel, &tab->data.line_length, &tab->data.endian);
 }
 
@@ -217,7 +281,7 @@ int main(int argc, char **argv)
 	map = NULL;
 	line = NULL;
 	fd = open(argv[1], O_RDONLY);
-	ft_initial(&tab);
+	initial_parse(&tab);
 	ft_create_parse(&tab, line, &map, fd);
 	how_list_size(&tab, map);
 	printf ("\nmem_check %d\n", mem_for_map(&tab));
@@ -239,24 +303,26 @@ int main(int argc, char **argv)
 	{
 		printf("=====>%s|\n", tab.a.arr[i]);
 	}
-
+	color_convert(&tab);
 	tab.data.mlx = mlx_init();
-	tab.data.win = mlx_new_window(tab.data.mlx, 500, 500, "Hui w rot!");
-	tab.data.img = mlx_new_image(tab.data.mlx, 500, 500);
+	tab.data.win = mlx_new_window(tab.data.mlx, 800, 600, "Hui w rot!");
+	tab.data.img = mlx_new_image(tab.data.mlx, 800, 600);
 	tab.data.addr = mlx_get_data_addr(tab.data.img, &tab.data.bits_per_pixel, &tab.data.line_length, &tab.data.endian);
 //	mlx_put_image_to_window(all.data.mlx, all.data.win, all.data.img, 0, 0);
 	int x;
 
 	x = -1;
-	tab.pers.posX = 5.0;
-	tab.pers.posY = 5.0;
+//	tab.pers.posX = 3.5;
+//	tab.pers.posY = 3.5;
 	tab.pers.dirX = -1.0;
 	tab.pers.dirY = 0.0;
 	tab.pers.planeX = 0.0;
 	tab.pers.planeY = 0.66;
 	draw(&tab);
 
-	mlx_hook(tab.data.win, 2, (1L << 0), &key_press, &tab);
+	mlx_hook(tab.data.win, 2, (1L << 0), &ft_press, &tab);
+	mlx_hook(tab.data.win, 3, (1L << 1), &ft_unpress, &tab);
+	mlx_loop_hook(tab.data.mlx, &for_move, &tab);
 	mlx_loop(tab.data.mlx);
 //	TODO Возвращает Invalid Map. вместо Invalid Path.
 

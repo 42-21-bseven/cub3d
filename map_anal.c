@@ -28,6 +28,20 @@ int rude_anal(t_tab *tab, char *str, char *right)
 	return (1);
 }
 
+int	help_anal(t_tab *tab, char *err, int i, int j)
+{
+	if (tab->a.arr[i][j] == 32)
+	{
+		if (hard_anal(tab, i, j) == -1)
+			return (-1 + (tab->check_flag = put_error(err)));
+	}
+	if (tab->a.arr[i][j] == 'N' || tab->a.arr[i][j] == 'S' || tab->a.arr[i][j] == 'E' || tab->a.arr[i][j] == 'W')
+	{
+		tab->pers.posX = i + 0.5;
+		tab->pers.posY = j + 0.5;
+	}
+}
+
 int	map_anal(t_tab *tab)
 {
 	int i;
@@ -43,11 +57,7 @@ int	map_anal(t_tab *tab)
 		j = 0;
 		while (j < tab->lst_len)
 		{
-			if (tab->a.arr[i][j] == 32)
-			{
-				if (hard_anal(tab, i, j) == -1)
-					return (-1 + (tab->check_flag = put_error(err)));
-			}
+			help_anal(tab, err, i, j);
 			j++;
 		}
 		i++;

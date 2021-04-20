@@ -66,7 +66,7 @@ void map_to_array(t_tab *tab, t_list *map)
 	while (tab->iters.i < tab->lst_size - 1)
 	{
 		if (tab->iters.i == 0)
-			str_to_str(NULL, tab->a.arr[tab->iters.i], tab->lst_len);
+			str_to_str("\0", tab->a.arr[tab->iters.i], tab->lst_len);
 		else
 		{
 			str_to_str(map->content, tab->a.arr[tab->iters.i], tab->lst_len);
@@ -74,5 +74,5 @@ void map_to_array(t_tab *tab, t_list *map)
 		}
 		tab->iters.i++;
 	}
-	str_to_str(NULL, tab->a.arr[tab->iters.i], tab->lst_len);
+	str_to_str("\0", tab->a.arr[tab->iters.i], tab->lst_len);
 }

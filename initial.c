@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void ft_initial(t_tab *tab)
+void initial_parse(t_tab *tab)
 {
 	tab->flags.floor = 0;
 	tab->flags.ceil = 0;
@@ -26,4 +26,16 @@ void ft_initial(t_tab *tab)
 	tab->prms.paths.ea = NULL;
 	tab->prms.paths.we = NULL;
 	tab->prms.paths.obj = NULL;
+	initial_move(tab);
+}
+
+void	initial_move(t_tab *tab)
+{
+	tab->move.up = 0;
+	tab->move.down = 0;
+	tab->move.right = 0;
+	tab->move.left = 0;
+	tab->move.look_right = 0;
+	tab->move.look_left = 0;
+	tab->move.close = 0;
 }

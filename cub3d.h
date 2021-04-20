@@ -18,6 +18,16 @@
 # define mapHeight 24
 //# define rotSpeed (0.05)
 
+typedef struct s_move
+{
+	int up;
+	int down;
+	int right;
+	int left;
+	int look_right;
+	int look_left;
+	int close;
+}				t_move;
 
 typedef struct	s_data
 {
@@ -78,9 +88,11 @@ typedef struct		s_clrs
 	int		floor_r;
 	int		floor_g;
 	int		floor_b;
+	int		floor_res;
 	int		ceil_r;
 	int		ceil_g;
 	int		ceil_b;
+	int		ceil_res;
 }					t_clrs;
 
 typedef struct		s_rsltn
@@ -145,6 +157,7 @@ typedef struct		s_tab
 	t_data data;
 	t_ray ray;
 	t_pers pers;
+	t_move move;
 }					t_tab;
 
 void				cut_space(char **str);
@@ -174,11 +187,15 @@ int					rude_anal(t_tab *tab, char *str, char *right);
 int					map_anal(t_tab *tab);
 int					hard_anal(t_tab *tab, int i, int j);
 
-void				ft_initial(t_tab *tab);
+void				initial_parse(t_tab *tab);
+void				initial_move(t_tab *tab);
 void				free_list(t_list **head);
 void				free_struct(t_tab *tab);
 
+
 int		draw(t_tab *tab);
+void		color_convert(t_tab *tab);
+void	draw_floor_ceil(t_tab *tab);
 
 #endif
 
