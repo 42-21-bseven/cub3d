@@ -3,7 +3,7 @@
 
 int check_some (t_tab *tab, char **str)
 {
-	while ()
+//	while ()
 	return (0);
 }
 
@@ -103,7 +103,7 @@ int		for_move(t_tab *tab)
 {
 	double rotSpeed;
 
-	rotSpeed = 0.05;
+	rotSpeed = 0.075;
 //	printf("KEY %d\n", key);
 	if(tab->move.up)
 	{
@@ -314,10 +314,10 @@ int main(int argc, char **argv)
 	x = -1;
 //	tab.pers.posX = 3.5;
 //	tab.pers.posY = 3.5;
-	tab.pers.dirX = -1.0;
-	tab.pers.dirY = 0.0;
-	tab.pers.planeX = 0.0;
-	tab.pers.planeY = 0.66;
+//	tab.pers.dirX = 0.0;
+//	tab.pers.dirY = 1.0;
+//	tab.pers.planeX = 0.66;
+//	tab.pers.planeY = 0;
 	draw(&tab);
 
 	mlx_hook(tab.data.win, 2, (1L << 0), &ft_press, &tab);
