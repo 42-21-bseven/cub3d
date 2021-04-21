@@ -35,7 +35,7 @@ void	initial_move(t_tab *tab)
 	tab->move.down = 0;
 	tab->move.right = 0;
 	tab->move.left = 0;
-	tab->move.look_right = 0;
-	tab->move.look_left = 0;
+	tab->move.scroll_right = 0;
+	tab->move.scroll_left = 0;
 	tab->move.close = 0;
 }

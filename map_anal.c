@@ -39,9 +39,12 @@ int	help_anal(t_tab *tab, char *err, int i, int j)
 	{
 		tab->pers.posX = i + 0.5;
 		tab->pers.posY = j + 0.5;
+		tab->pers.orient = tab->a.arr[i][j];
+		tab->a.arr[i][j] = '0';
 	}
-	pers_orient (tab, i, j);
-	pers_orient_2 (tab, i, j);
+	pers_orient (tab);
+	pers_orient_2 (tab);
+
 }
 
 int	map_anal(t_tab *tab)

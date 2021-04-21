@@ -24,8 +24,8 @@ typedef struct s_move
 	int down;
 	int right;
 	int left;
-	int look_right;
-	int look_left;
+	int scroll_right;
+	int scroll_left;
 	int close;
 }				t_move;
 
@@ -81,6 +81,7 @@ typedef struct	s_pers
 	double		dirY;
 	double		planeX;
 	double		planeY;
+	char		orient;
 }				t_pers;
 
 typedef struct		s_clrs
@@ -194,10 +195,12 @@ void				free_struct(t_tab *tab);
 
 
 int		draw(t_tab *tab);
-void		color_convert(t_tab *tab);
+void	color_convert(t_tab *tab);
 void	draw_floor_ceil(t_tab *tab);
-void	pers_orient(t_tab *tab, int i, int j);
-void	pers_orient_2(t_tab *tab, int i, int j);
+void	pers_orient(t_tab *tab);
+void	pers_orient_2(t_tab *tab);
+void	for_scroll_right(t_tab *tab);
+void	for_scroll_left(t_tab *tab);
 
 #endif
 

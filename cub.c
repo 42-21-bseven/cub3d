@@ -80,10 +80,14 @@ int		ft_press(int key, t_tab *tab)
 		tab->move.up = 1;
 	if (key == 65364)
 		tab->move.down = 1;
-	if (key == 65363)
+	if (key == 100)
 		tab->move.right = 1;
-	if (key == 65361)
+	if (key == 97)
 		tab->move.left = 1;
+	if (key == 65363)
+		tab->move.scroll_right = 1;
+	if (key == 65361)
+		tab->move.scroll_left = 1;
 	printf("KEY %d\n", key);
 }
 
@@ -93,10 +97,42 @@ int		ft_unpress(int key, t_tab *tab)
 		tab->move.up = 0;
 	if (key == 65364)
 		tab->move.down = 0;
-	if (key == 65363)
+	if (key == 100)
 		tab->move.right = 0;
-	if (key == 65361)
+	if (key == 97)
 		tab->move.left = 0;
+	if (key == 65363)
+		tab->move.scroll_right = 0;
+	if (key == 65361)
+		tab->move.scroll_left = 0;
+}
+
+void	for_scroll_right(t_tab *tab)
+{
+	if (tab->a.arr[(int)(tab->pers.posX + tab->pers.dirY * 0.06)]
+		[(int)(tab->pers.posY)] == '0')
+	{
+		tab->pers.posX += tab->pers.dirY * 0.06;
+	}
+	if (tab->a.arr[(int)(tab->pers.posX)]
+		[(int)(tab->pers.posY - tab->pers.dirX * 0.06)] == '0')
+	{
+		tab->pers.posY -= tab->pers.dirX * 0.06;
+	}
+}
+
+void	for_scroll_left(t_tab *tab)
+{
+	if (tab->a.arr[(int)(tab->pers.posX - tab->pers.dirY * 0.06)]
+		[(int)(tab->pers.posY)] == '0')
+	{
+		tab->pers.posX -= tab->pers.dirY * 0.06;
+	}
+	if (tab->a.arr[(int)(tab->pers.posX)]
+		[(int)(tab->pers.posY + tab->pers.dirX * 0.06)] == '0')
+	{
+		tab->pers.posY += tab->pers.dirX * 0.06;
+	}
 }
 
 int		for_move(t_tab *tab)
@@ -146,6 +182,10 @@ int		for_move(t_tab *tab)
 		tab->pers.planeX = tab->pers.planeX * cos(rotSpeed) - tab->pers.planeY * sin(rotSpeed);
 		tab->pers.planeY = tab->ray.oldPlaneX * sin(rotSpeed) + tab->pers.planeY * cos(rotSpeed);
 	}
+	if (tab->move.scroll_left)
+		for_scroll_left(tab);
+	if (tab->move.scroll_right)
+		for_scroll_right(tab);
 	draw_floor_ceil(tab);
 	draw(tab);
 	return (0);
@@ -265,7 +305,7 @@ int		draw(t_tab *tab)
 	}
 	mlx_put_image_to_window(tab->data.mlx, tab->data.win, tab->data.img, 0, 0);
 	mlx_destroy_image(tab->data.mlx, tab->data.img);
-	tab->data.img = mlx_new_image(tab->data.mlx, 800, 600);
+	tab->data.img = mlx_new_image(tab->data.mlx, 640, 480);
 	tab->data.addr = mlx_get_data_addr(tab->data.img, &tab->data.bits_per_pixel, &tab->data.line_length, &tab->data.endian);
 }
 
@@ -305,8 +345,8 @@ int main(int argc, char **argv)
 	}
 	color_convert(&tab);
 	tab.data.mlx = mlx_init();
-	tab.data.win = mlx_new_window(tab.data.mlx, 800, 600, "Hui w rot!");
-	tab.data.img = mlx_new_image(tab.data.mlx, 800, 600);
+	tab.data.win = mlx_new_window(tab.data.mlx, 640, 480, "Hui w rot!");
+	tab.data.img = mlx_new_image(tab.data.mlx, 640, 480);
 	tab.data.addr = mlx_get_data_addr(tab.data.img, &tab.data.bits_per_pixel, &tab.data.line_length, &tab.data.endian);
 //	mlx_put_image_to_window(all.data.mlx, all.data.win, all.data.img, 0, 0);
 	int x;
