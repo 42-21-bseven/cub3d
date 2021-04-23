@@ -22,17 +22,17 @@ void	pers_orient(t_tab *tab)
 
 	if (tab->pers.orient == 'N')
 	{
-		tab->pers.dirX = -1.0;
-		tab->pers.dirY = 0.0;
-		tab->pers.planeX = 0.00;
-		tab->pers.planeY = 0.66;
+		tab->pers.dir_x = -1.0;
+		tab->pers.dir_y = 0.0;
+		tab->pers.plane_x = 0.00;
+		tab->pers.plane_y = 0.66;
 	}
 	if (tab->pers.orient == 'S')
 	{
-		tab->pers.dirX = 1.0;
-		tab->pers.dirY = 0.0;
-		tab->pers.planeX = 0.00;
-		tab->pers.planeY = -0.66;
+		tab->pers.dir_x = 1.0;
+		tab->pers.dir_y = 0.0;
+		tab->pers.plane_x = 0.00;
+		tab->pers.plane_y = -0.66;
 	}
 }
 
@@ -40,17 +40,17 @@ void	pers_orient_2(t_tab *tab)
 {
 	if (tab->pers.orient == 'E')
 	{
-		tab->pers.dirX = 0.0;
-		tab->pers.dirY = 1.0;
-		tab->pers.planeX = 0.66;
-		tab->pers.planeY = 0.00;
+		tab->pers.dir_x = 0.0;
+		tab->pers.dir_y = 1.0;
+		tab->pers.plane_x = 0.66;
+		tab->pers.plane_y = 0.00;
 	}
 	if (tab->pers.orient == 'W')
 	{
-		tab->pers.dirX = 0.0;
-		tab->pers.dirY = -1.0;
-		tab->pers.planeX = -0.66;
-		tab->pers.planeY = 0.00;
+		tab->pers.dir_x = 0.0;
+		tab->pers.dir_y = -1.0;
+		tab->pers.plane_x = -0.66;
+		tab->pers.plane_y = 0.00;
 	}
 }
 

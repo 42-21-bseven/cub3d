@@ -37,8 +37,8 @@ int	help_anal(t_tab *tab, char *err, int i, int j)
 	}
 	if (tab->a.arr[i][j] == 'N' || tab->a.arr[i][j] == 'S' || tab->a.arr[i][j] == 'E' || tab->a.arr[i][j] == 'W')
 	{
-		tab->pers.posX = i + 0.5;
-		tab->pers.posY = j + 0.5;
+		tab->pers.pos_x = i + 0.5;
+		tab->pers.pos_y = j + 0.5;
 		tab->pers.orient = tab->a.arr[i][j];
 		tab->a.arr[i][j] = '0';
 	}

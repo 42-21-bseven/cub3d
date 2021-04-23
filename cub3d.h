@@ -16,7 +16,31 @@
 # define texHeight 64
 # define mapWidth 24
 # define mapHeight 24
-//# define rotSpeed (0.05)
+//# define rot_speed (0.05)
+
+typedef struct	s_img
+{
+	void	*img;
+	void 	*addr;
+	int 	line_l;
+	int		bpp;
+	int		end;
+}				t_img;
+
+typedef struct	s_wall_info
+{
+	t_img	wall_img;
+	int 	width;
+	int		height;
+}				t_wall_info;
+
+typedef struct	s_walls_tex
+{
+	t_wall_info no;
+	t_wall_info so;
+	t_wall_info ea;
+	t_wall_info we;
+}				t_walls_tex;
 
 typedef struct s_move
 {
@@ -42,45 +66,45 @@ typedef struct	s_data
 
 typedef struct	s_ray
 {
-	double		cameraX; // = 2 * x / (double)w - 1; //x-coordinate in camera space
-	double		rayDirX; // = dirX + planeX*cameraX;
-	double		rayDirY; // = dirY + planeY*cameraX;
-	int			mapX; // = int(posX);
-	int			mapY; // = int(posY);
-	double		sideDistX;
-	double		sideDistY;
-	double		deltaDistX; // = std::abs(1 / rayDirX);
-	double		deltaDistY; // = std::abs(1 / rayDirY);
-	double		perpWallDist;
-	int			stepX;
-	int			stepY;
-	int			color;
+	double		camera_x; // = 2 * x / (double)w - 1; //x-coordinate in camera space
+	double		ray_dir_x; // = dir_x + plane_x*camera_x;
+	double		ray_dir_y; // = dir_y + plane_y*camera_x;
+	int			map_x; // = int(pos_x);
+	int			map_y; // = int(pos_y);
+	double		side_dist_x;
+	double		side_dist_y;
+	double		delta_dist_x; // = std::abs(1 / ray_dir_x);
+	double		delta_dist_y; // = std::abs(1 / ray_dir_y);
+	double		perp_wall_dist;
+	int			step_x;
+	int			step_y;
+	unsigned int	*color;
 	int			hit; // = 0; //was there a wall hit?
 	int			side; //was a NS or a EW wall hit?
-	int			lineHeight; // = (int)(h / perpWallDist);
-	int			drawStart; // = -lineHeight / 2 + h / 2;
-	int			drawEnd; // = lineHeight / 2 + h / 2;
-	int			texNum; // = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
-	double		wallX; //where exactly the wall was hit
-	int			texX; // = int(wallX * double(texWidth));
-	double		step; // = 1.0 * texHeight / lineHeight;
-	double		texPos; // = (drawStart - h / 2 + lineHeight / 2) * step;
-	int			texY; // = (int)texPos & (texHeight - 1);
-	double		frameTime; //= (time - oldTime) / 1000.0; //frametime is the time this frame has taken, in seconds
-	double		moveSpeed; // = frameTime * 5.0; //the constant value is in squares/second
-	double		rotSpeed; // = frameTime * 3.0; //the constant value is in radians/second
-	double		oldDirX; // = dirX;
-	double		oldPlaneX; // = planeX;
+	int			line_height; // = (int)(h / perp_wall_dist);
+	int			draw_start; // = -line_height / 2 + h / 2;
+	int			draw_end; // = line_height / 2 + h / 2;
+	int			tex_num; // = worldMap[map_x][map_y] - 1; //1 subtracted from it so that texture 0 can be used!
+	double		wall_x; //where exactly the wall was hit
+	int			tex_x; // = int(wall_x * double(texWidth));
+	double		step; // = 1.0 * texHeight / line_height;
+	double		tex_pos; // = (draw_start - h / 2 + line_height / 2) * step;
+	int			tex_y; // = (int)tex_pos & (texHeight - 1);
+	double		frame_time; //= (time - oldTime) / 1000.0; //frametime is the time this frame has taken, in seconds
+	double		move_speed; // = frame_time * 5.0; //the constant value is in squares/second
+	double		rot_speed; // = frame_time * 3.0; //the constant value is in radians/second
+	double		old_dir_x; // = dir_x;
+	double		old_plane_x; // = plane_x;
 }				t_ray;
 
 typedef struct	s_pers
 {
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
+	double		pos_x;
+	double		pos_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
 	char		orient;
 }				t_pers;
 
@@ -159,6 +183,7 @@ typedef struct		s_tab
 	t_ray ray;
 	t_pers pers;
 	t_move move;
+	t_walls_tex walls_tex;
 }					t_tab;
 
 void				cut_space(char **str);
