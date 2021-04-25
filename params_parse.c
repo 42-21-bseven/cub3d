@@ -27,6 +27,7 @@ int parse_param (t_tab *tab, char *line)
 			return (-1 + (tab->check_flag =
 					put_error("\nERROR!\nInvalid Path.\n")));
 	}
+	return (1);
 }
 
 int parse_rsltn (t_tab *tab, char **str)

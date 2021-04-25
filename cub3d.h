@@ -4,7 +4,8 @@
 # include "gnl_cub3d/get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
-# include "minilibx/mlx.h"
+//# include "minilibx/mlx.h"
+#include "./minilibx_opengl_20191021/mlx.h"
 # include <math.h>
 # define W tab->prms.rsltn.x
 # define H tab->prms.rsltn.y
@@ -219,7 +220,7 @@ void				free_list(t_list **head);
 void				free_struct(t_tab *tab);
 
 
-int		draw(t_tab *tab);
+void		draw(t_tab *tab);
 void	color_convert(t_tab *tab);
 void	draw_floor_ceil(t_tab *tab);
 void	pers_orient(t_tab *tab);

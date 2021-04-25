@@ -1,12 +1,12 @@
-   R 800 600
+   R 1024 768
 F 133, 0160, 000000000000000000000000000000000000000000000000000000000000254
 C 20 ,70,160
 
-NO /home/alexander/CLionProjects/cub/textures/no.xpm
-SO /home/alexander/CLionProjects/cub/textures/so.xpm
-EA /home/alexander/CLionProjects/cub/textures/ea.xpm
-WE /home/alexander/CLionProjects/cub/textures/we.xpm
-S /home/alexander/CLionProjects/cub/textures/obj.xpm
+NO /Users/bseven/cub3d/textures/no.xpm
+SO /Users/bseven/cub3d/textures/so.xpm
+EA /Users/bseven/cub3d/textures/ea.xpm
+WE /Users/bseven/cub3d/textures/we.xpm
+S /Users/bseven/cub3d/textures/obj.xpm
 
 11111111111111111111111111111111111111111111111
 10000000000001000000000000000000000000000000001

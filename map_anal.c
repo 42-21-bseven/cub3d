@@ -44,6 +44,7 @@ int	help_anal(t_tab *tab, char *err, int i, int j)
 	}
 	pers_orient (tab);
 	pers_orient_2 (tab);
+	return (1);
 
 }
 
@@ -96,4 +97,5 @@ int	hard_anal(t_tab *tab, int i, int j)
 	if ((j != 0 && i != 0) && !(tab->a.arr[i - 1][j - 1] == '1' ||
 	tab->a.arr[i - 1][j - 1] == ' ' || tab->a.arr[i - 1][j - 1] == '\0'))
 		return (-1);
+	return (1);
 }

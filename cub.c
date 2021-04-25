@@ -44,7 +44,7 @@ int get_count(t_tab *tab)
 	tab->flags.no + tab->flags.rsltn + tab->flags.floor + tab->flags.ceil);
 }
 
-int ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
+void ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
 {
 	while (tab->check_flag && get_count(tab) != 8 && get_next_line(fd, &line))
 	{
@@ -106,37 +106,39 @@ void	draw_floor_ceil(t_tab *tab)
 
 int		ft_press(int key, t_tab *tab)
 {
-	if (key == 65362)
+	if (key == 13)
 		tab->move.up = 1;
-	if (key == 65364)
+	if (key == 1)
 		tab->move.down = 1;
-	if (key == 100)
+	if (key == 124)
 		tab->move.right = 1;
-	if (key == 97)
+	if (key == 123)
 		tab->move.left = 1;
-	if (key == 65363)
+	if (key == 2)
 		tab->move.scroll_right = 1;
-	if (key == 65361)
+	if (key == 0)
 		tab->move.scroll_left = 1;
-	if (key == 65307)
+	if (key == 53)
 		exit(0);
-	printf("KEY %d\n", key);
+	printf("key = %d\n", key);
+	return (1);
 }
 
 int		ft_unpress(int key, t_tab *tab)
 {
-	if (key == 65362)
+	if (key == 13)
 		tab->move.up = 0;
-	if (key == 65364)
+	if (key == 1)
 		tab->move.down = 0;
-	if (key == 100)
+	if (key == 124)
 		tab->move.right = 0;
-	if (key == 97)
+	if (key == 123)
 		tab->move.left = 0;
-	if (key == 65363)
+	if (key == 2)
 		tab->move.scroll_right = 0;
-	if (key == 65361)
+	if (key == 0)
 		tab->move.scroll_left = 0;
+	return (1);
 }
 
 void	for_scroll_right(t_tab *tab)
@@ -224,7 +226,7 @@ int		for_move(t_tab *tab)
 	//rotate to the right
 }
 
-int		draw(t_tab *tab)
+void		draw(t_tab *tab)
 {
 	int x = -1;
 	//	W = 800;
@@ -303,13 +305,13 @@ int		draw(t_tab *tab)
 		tab->ray.draw_start = -tab->ray.line_height / 2 + H / 2;
 		if(tab->ray.draw_start < 0) tab->ray.draw_start = 0;
 		tab->ray.draw_end = tab->ray.line_height / 2 + H / 2;
-		if(tab->ray.draw_end >= H) tab->ray.draw_end = H - 1;
+		if(tab->ray.draw_end >= H) tab->ray.draw_end = H;
 
 		//texturing calculations
 		tab->ray.tex_num = WWORLDMAP[tab->ray.map_x][tab->ray.map_y] - 1; //1 subtracted from it so that texture 0 can be used!
 
 		//calculate value of wall_x
-		tab->ray.wall_x; //where exactly the wall was hit
+//		tab->ray.wall_x; //where exactly the wall was hit
 		if(tab->ray.side == 0) tab->ray.wall_x = tab->pers.pos_y + tab->ray.perp_wall_dist * tab->ray.ray_dir_y;
 		else tab->ray.wall_x = tab->pers.pos_x + tab->ray.perp_wall_dist * tab->ray.ray_dir_x;
 		tab->ray.wall_x -= floor((tab->ray.wall_x));
@@ -350,7 +352,7 @@ int		draw(t_tab *tab)
 	}
 	mlx_put_image_to_window(tab->data.mlx, tab->data.win, tab->data.img, 0, 0);
 	mlx_destroy_image(tab->data.mlx, tab->data.img);
-	tab->data.img = mlx_new_image(tab->data.mlx, 800, 600);
+	tab->data.img = mlx_new_image(tab->data.mlx, W, H);
 	tab->data.addr = mlx_get_data_addr(tab->data.img, &tab->data.bits_per_pixel, &tab->data.line_length, &tab->data.endian);
 }
 
@@ -392,8 +394,8 @@ int main(int argc, char **argv)
 
 
 	tab.data.mlx = mlx_init();
-	tab.data.win = mlx_new_window(tab.data.mlx, 800, 600, "Hui w rot!");
-	tab.data.img = mlx_new_image(tab.data.mlx, 800, 600);
+	tab.data.win = mlx_new_window(tab.data.mlx, tab.prms.rsltn.x, tab.prms.rsltn.y, "Hui w rot!");
+	tab.data.img = mlx_new_image(tab.data.mlx, tab.prms.rsltn.x, tab.prms.rsltn.y);
 	tab.data.addr = mlx_get_data_addr(tab.data.img, &tab.data.bits_per_pixel, &tab.data.line_length, &tab.data.endian);
 //	mlx_put_image_to_window(all.data.mlx, all.data.win, all.data.img, 0, 0);
 	int x;
