@@ -7,6 +7,8 @@ int rude_anal(t_tab *tab, char *str, char *right)
 	head = right;
 	while (*str)
 	{
+		if (*str == '2')
+			tab->sprites.count_sprites++;
 		right = head;
 		while (*right)
 		{
@@ -30,6 +32,11 @@ int rude_anal(t_tab *tab, char *str, char *right)
 
 int	help_anal(t_tab *tab, char *err, int i, int j)
 {
+	if (tab->a.arr[i][j] == '2')
+	{
+		tab->sprites.arr_spr[tab->iters.k].x = i;
+		tab->sprites.arr_spr[tab->iters.k++].y = j;
+	}
 	if (tab->a.arr[i][j] == 32)
 	{
 		if (hard_anal(tab, i, j) == -1)
@@ -55,6 +62,8 @@ int	map_anal(t_tab *tab)
 	char *err;
 
 	i = 0;
+	tab->iters.k = 0;
+	tab->sprites.arr_spr = (t_spr*)malloc(tab->sprites.count_sprites * sizeof(t_spr));
 	err = "\nERROR!\nInvalid Map.\n";
 	if (tab->iters.dub == 0)
 		return (tab->check_flag = put_error(err));

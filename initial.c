@@ -38,4 +38,12 @@ void	initial_move(t_tab *tab)
 	tab->move.scroll_right = 0;
 	tab->move.scroll_left = 0;
 	tab->move.close = 0;
+	initial_sprites(tab);
+}
+
+void	initial_sprites(t_tab *tab)
+{
+	tab->sprites.count_sprites = 0;
+	tab->sprites.width = 0;
+	tab->sprites.height = 0;
 }

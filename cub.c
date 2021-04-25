@@ -39,6 +39,12 @@ unsigned int  *ft_pixel_take(t_wall_info tex, int x, int y)
 	(y * tex.wall_img.line_l + x * (tex.wall_img.bpp / 8))));
 }
 
+unsigned int  *ft_pixel_take_spr(t_img spr_img, int x, int y)
+{
+	return ((unsigned int *)(spr_img.addr +\
+	(y * spr_img.line_l + x * (spr_img.bpp / 8))));
+}
+
 int check_some (t_tab *tab, char **str)
 {
 //	while ()
@@ -52,7 +58,7 @@ int get_count(t_tab *tab)
 	tab->flags.no + tab->flags.rsltn + tab->flags.floor + tab->flags.ceil);
 }
 
-int ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
+void ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
 {
 	while (tab->check_flag && get_count(tab) != 8 && get_next_line(fd, &line))
 	{
@@ -117,37 +123,39 @@ void	draw_floor_ceil(t_tab *tab)
 
 int		ft_press(int key, t_tab *tab)
 {
-	if (key == 65362 || key == 119)
+	if (key == 13)
 		tab->move.up = 1;
-	if (key == 65364 || key == 115)
+	if (key == 1)
 		tab->move.down = 1;
-	if (key == 65363)
+	if (key == 124)
 		tab->move.right = 1;
-	if (key == 65361)
+	if (key == 123)
 		tab->move.left = 1;
-	if (key == 100)
+	if (key == 2)
 		tab->move.scroll_right = 1;
-	if (key == 97)
+	if (key == 0)
 		tab->move.scroll_left = 1;
-	if (key == 65307)
+	if (key == 53)
 		exit(0);
 	printf("KEY %d\n", key);
+	return (1);
 }
 
 int		ft_unpress(int key, t_tab *tab)
 {
-	if (key == 65362 || key == 119)
+	if (key == 13)
 		tab->move.up = 0;
-	if (key == 65364 || key == 115)
+	if (key == 1)
 		tab->move.down = 0;
-	if (key == 65363)
+	if (key == 124)
 		tab->move.right = 0;
-	if (key == 65361)
+	if (key == 123)
 		tab->move.left = 0;
-	if (key == 100)
+	if (key == 2)
 		tab->move.scroll_right = 0;
-	if (key == 97)
+	if (key == 0)
 		tab->move.scroll_left = 0;
+	return (1);
 }
 
 void	for_scroll_right(t_tab *tab)
@@ -247,7 +255,7 @@ int		for_move(t_tab *tab)
 	//rotate to the right
 }
 
-int		draw(t_tab *tab)
+void		draw(t_tab *tab)
 {
 	int x = -1;
 	//	W = 800;
@@ -360,7 +368,7 @@ int		draw(t_tab *tab)
 		tab->ray.tex_num = WWORLDMAP[tab->ray.map_x][tab->ray.map_y] - 1; //1 subtracted from it so that texture 0 can be used!
 
 		//calculate value of wall_x
-		tab->ray.wall_x; //where exactly the wall was hit
+//		tab->ray.wall_x; //where exactly the wall was hit
 		if(tab->ray.side == 0)
 			tab->ray.wall_x = tab->pers.pos_y + tab->ray.perp_wall_dist * tab->ray.ray_dir_y;
 		else
@@ -424,10 +432,16 @@ int		draw(t_tab *tab)
 			my_mlx_pixel_put(tab, x, y, (int)(*tab->ray.color));
 			y++;
 		}
+		tab->ray.z_buffer[x] = tab->ray.perp_wall_dist; //perpendicular distance is used
 	}
+//	write(1, "1", 1);
+	calc_ditantion(tab);
+//	write(1, "2", 1);
+	draw_sprites(tab);
+//	write(1, "3", 1);
 	mlx_put_image_to_window(tab->data.mlx, tab->data.win, tab->data.img, 0, 0);
 	mlx_destroy_image(tab->data.mlx, tab->data.img);
-	tab->data.img = mlx_new_image(tab->data.mlx, 800, 600);
+	tab->data.img = mlx_new_image(tab->data.mlx, W, H);
 	tab->data.addr = mlx_get_data_addr(tab->data.img, \
 	&tab->data.bits_per_pixel, &tab->data.line_length, &tab->data.endian);
 }
@@ -467,17 +481,25 @@ int main(int argc, char **argv)
 		printf("=====>%s|\n", tab.a.arr[i]);
 	}
 	color_convert(&tab);
-
+	printf("Sprite count = %d\n", tab.sprites.count_sprites);
+	calc_ditantion(&tab);
+	for (int l = 0; l < tab.sprites.count_sprites; l++)
+	{
+		printf("x = %f, y = %f dist = %f\n", tab.sprites.arr_spr[l].x, tab.sprites.arr_spr[l].y, tab.sprites.arr_spr[l].dist);
+	}
 
 	tab.data.mlx = mlx_init();
-	tab.data.win = mlx_new_window(tab.data.mlx, 800, 600, "Hui w rot!");
-	tab.data.img = mlx_new_image(tab.data.mlx, 800, 600);
+	tab.data.win = mlx_new_window(tab.data.mlx, tab.prms.rsltn.x, tab.prms.rsltn.y, "cub3D");
+	tab.data.img = mlx_new_image(tab.data.mlx, tab.prms.rsltn.x, tab.prms.rsltn.y);
 	tab.data.addr = mlx_get_data_addr(tab.data.img, \
 	&tab.data.bits_per_pixel, &tab.data.line_length, &tab.data.endian);
 //	mlx_put_image_to_window(all.data.mlx, all.data.win, all.data.img, 0, 0);
 	int x;
 	get_img(&tab);
 	get_addr(&tab);
+	get_img_spr(&tab);
+	get_addr_spr(&tab);
+	tab.ray.z_buffer = (double *)malloc(tab.prms.rsltn.x * sizeof(double));
 	x = -1;
 //	tab.pers.pos_x = 3.5;
 //	tab.pers.pos_y = 3.5;

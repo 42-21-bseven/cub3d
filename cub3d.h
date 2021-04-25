@@ -19,6 +19,13 @@
 # define mapHeight 24
 //# define rot_speed (0.05)
 
+typedef struct	s_spr
+{
+	double x;
+	double y;
+	double dist;
+}				t_spr;
+
 typedef struct	s_img
 {
 	void	*img;
@@ -34,6 +41,35 @@ typedef struct	s_wall_info
 	int 	width;
 	int		height;
 }				t_wall_info;
+
+typedef struct 	s_sprites
+{
+	int count_sprites;
+	int height;
+	int width;
+	t_img spr_img;
+	t_spr *arr_spr;
+}				t_sprites;
+
+typedef struct 	s_ray_spr
+{
+	double spriteX;
+	double spriteY;
+	double invDet;
+	double transformX;
+	double transformY;
+	int spriteScreenX;
+	int spriteHeight;
+	int drawStartY;
+	int drawEndY;
+	int spriteWidth;
+	int drawStartX;
+	int drawEndX;
+	int texX;
+	int d;
+	int texY;
+	unsigned int	*color;
+}				t_ray_spr;
 
 typedef struct	s_walls_tex
 {
@@ -96,6 +132,7 @@ typedef struct	s_ray
 	double		rot_speed; // = frame_time * 3.0; //the constant value is in radians/second
 	double		old_dir_x; // = dir_x;
 	double		old_plane_x; // = plane_x;
+	double 		*z_buffer;
 }				t_ray;
 
 typedef struct	s_pers
@@ -185,6 +222,8 @@ typedef struct		s_tab
 	t_pers pers;
 	t_move move;
 	t_walls_tex walls_tex;
+	t_sprites sprites;
+	t_ray_spr ray_spr;
 }					t_tab;
 
 void				cut_space(char **str);
@@ -219,7 +258,6 @@ void				initial_move(t_tab *tab);
 void				free_list(t_list **head);
 void				free_struct(t_tab *tab);
 
-
 void		draw(t_tab *tab);
 void	color_convert(t_tab *tab);
 void	draw_floor_ceil(t_tab *tab);
@@ -227,6 +265,16 @@ void	pers_orient(t_tab *tab);
 void	pers_orient_2(t_tab *tab);
 void	for_scroll_right(t_tab *tab);
 void	for_scroll_left(t_tab *tab);
+void	initial_sprites(t_tab *tab);
+void 	bubble_sort(t_spr *tab, int count);
+void 	calc_ditantion(t_tab *tab);
+void 	draw_sprites(t_tab *tab);
+unsigned int  *ft_pixel_take_spr(t_img spr_img, int x, int y);
+void            my_mlx_pixel_put(t_tab *tab, int x, int y, int color);
+void 	draw_sprites(t_tab *tab);
+void 	get_img_spr(t_tab *tab);
+void 	get_addr_spr(t_tab *tab);
+
 
 #endif
 
