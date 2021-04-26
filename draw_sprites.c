@@ -1,6 +1,6 @@
 #include "./cub3d.h"
 
-void 	calc_ditantion(t_tab *tab)
+void 	calc_distance(t_tab *tab)
 {
 	int i;
 
@@ -89,7 +89,12 @@ void 	draw_sprites(t_tab *tab)
 			tab->ray_spr.drawEndX = W;
 
 		//loop through every vertical stripe of the sprite on screen
-		for (int stripe = tab->ray_spr.drawStartX; stripe < tab->ray_spr.drawEndX; stripe++) {
+//		for (int stripe = tab->ray_spr.drawStartX; stripe < tab->ray_spr.drawEndX; stripe++)
+		int stripe;
+
+		stripe = tab->ray_spr.drawStartX;
+		while (stripe < tab->ray_spr.drawEndX)
+		{
 			tab->ray_spr.texX =
 			(int)(256 * (stripe - (-tab->ray_spr.spriteWidth / 2 + tab->ray_spr.spriteScreenX)) * texWidth / tab->ray_spr.spriteWidth) / 256;
 			//the conditions in the if are:
@@ -97,7 +102,7 @@ void 	draw_sprites(t_tab *tab)
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if (tab->ray_spr.transformY > 0 && stripe > 0 && stripe < W &&
+			if (tab->ray_spr.transformY > 0 && stripe >= 0 && stripe < W &&
 					tab->ray_spr.transformY < tab->ray.z_buffer[stripe])
 				for (int y = tab->ray_spr.drawStartY;
 					 y < tab->ray_spr.drawEndY; y++) //for every pixel of the current stripe
@@ -110,6 +115,7 @@ void 	draw_sprites(t_tab *tab)
 						my_mlx_pixel_put(tab, stripe, y, (int)(*tab->ray_spr.color));
 //						buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
 				}
+			stripe++;
 		}
 	}
 }

@@ -201,6 +201,8 @@ typedef struct		s_iters
 	int		n;
 	int		flag;
 	int		dub;
+	int 	x;
+	int 	y;
 }					t_iters;
 
 typedef struct		s_array
@@ -224,6 +226,7 @@ typedef struct		s_tab
 	t_walls_tex walls_tex;
 	t_sprites sprites;
 	t_ray_spr ray_spr;
+	t_img *img;
 }					t_tab;
 
 void				cut_space(char **str);
@@ -258,22 +261,40 @@ void				initial_move(t_tab *tab);
 void				free_list(t_list **head);
 void				free_struct(t_tab *tab);
 
+void 	get_addr(t_tab *tab);
+void 	get_img(t_tab *tab);
+
 void		draw(t_tab *tab);
 void	color_convert(t_tab *tab);
 void	draw_floor_ceil(t_tab *tab);
+unsigned int  *ft_pixel_take(t_wall_info tex, int x, int y);
+
 void	pers_orient(t_tab *tab);
 void	pers_orient_2(t_tab *tab);
+
+int		ft_move(t_tab *tab);
+int		ft_press(int key, t_tab *tab);
+int		ft_unpress(int key, t_tab *tab);
+void 	for_move_up(t_tab *tab);
+void 	for_move_down(t_tab *tab);
 void	for_scroll_right(t_tab *tab);
 void	for_scroll_left(t_tab *tab);
+void 	for_rotate_right(t_tab *tab);
+void 	for_rotate_left(t_tab *tab);
+
 void	initial_sprites(t_tab *tab);
 void 	bubble_sort(t_spr *tab, int count);
-void 	calc_ditantion(t_tab *tab);
+void 	calc_distance(t_tab *tab);
+
 void 	draw_sprites(t_tab *tab);
 unsigned int  *ft_pixel_take_spr(t_img spr_img, int x, int y);
 void            my_mlx_pixel_put(t_tab *tab, int x, int y, int color);
 void 	draw_sprites(t_tab *tab);
 void 	get_img_spr(t_tab *tab);
 void 	get_addr_spr(t_tab *tab);
+
+void 	fr_screenshot(t_tab *tab);
+
 
 
 #endif
