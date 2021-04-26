@@ -51,6 +51,10 @@ int check_some (t_tab *tab, char **str)
 	return (0);
 }
 
+int 	ft_close(void)
+{
+	exit(0);
+}
 
 int get_count(t_tab *tab)
 {
@@ -509,6 +513,7 @@ int main(int argc, char **argv)
 //	tab.pers.plane_y = 0;
 	draw(&tab);
 
+	mlx_hook(tab.data.win, 17, 0, &ft_close, &tab);
 	mlx_hook(tab.data.win, 2, (1L << 0), &ft_press, &tab);
 	mlx_hook(tab.data.win, 3, (1L << 1), &ft_unpress, &tab);
 	mlx_loop_hook(tab.data.mlx, &for_move, &tab);

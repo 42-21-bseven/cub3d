@@ -61,38 +61,37 @@ void 	draw_sprites(t_tab *tab)
 		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
 		// [ planeY   dirY ]                                          [ -planeY  planeX ]
 
-		tab->ray_spr.invDet = 1.0 / (tab->pers.plane_x * tab->pers.dir_y - tab->pers.dir_x *
-											   tab->pers.plane_y); //required for correct matrix multiplication
+		tab->ray_spr.invDet = 1.0 / (tab->pers.plane_x * tab->pers.dir_y - tab->pers.dir_x * tab->pers.plane_y);
+																	//required for correct matrix multiplication
 
 		tab->ray_spr.transformX = tab->ray_spr.invDet * (tab->pers.dir_y * tab->ray_spr.spriteX - tab->pers.dir_x * tab->ray_spr.spriteY);
-		tab->ray_spr.transformY = tab->ray_spr.invDet * (-tab->pers.plane_y * tab->ray_spr.spriteX + tab->pers.plane_x *
-																					 tab->ray_spr.spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-		tab->ray_spr.spriteScreenX =
-		(int)((W / 2) *(1 + tab->ray_spr.transformX / tab->ray_spr.transformY));
+		tab->ray_spr.transformY = tab->ray_spr.invDet * (-tab->pers.plane_y * tab->ray_spr.spriteX + tab->pers.plane_x * tab->ray_spr.spriteY);
+		tab->ray_spr.spriteScreenX = (int)((W / 2) * (1 + tab->ray_spr.transformX / tab->ray_spr.transformY));
+																	//this is actually the depth inside the screen, that what Z is in 3D
 
 		//calculate height of the sprite on screen
-		tab->ray_spr.spriteHeight = abs(
-		(int)(H / (tab->ray_spr.transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		tab->ray_spr.spriteHeight = abs((int)(H / (tab->ray_spr.transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		tab->ray_spr.drawStartY = -tab->sprites.height / 2 + H / 2;
-		if (tab->ray_spr.drawStartY < 0) tab->ray_spr.drawStartY = 0;
+		tab->ray_spr.drawStartY = -tab->ray_spr.spriteHeight / 2 + H / 2;
+		if (tab->ray_spr.drawStartY < 0)
+			tab->ray_spr.drawStartY = 0;
 		tab->ray_spr.drawEndY = tab->ray_spr.spriteHeight / 2 + H / 2;
-		if (tab->ray_spr.drawEndY >= H) tab->ray_spr.drawEndY = H - 1;
+		if (tab->ray_spr.drawEndY >= H)
+			tab->ray_spr.drawEndY = H;
 
 		//calculate width of the sprite
-		tab->ray_spr.spriteWidth = abs(
-		(int) (H  / (tab->ray_spr.transformY)));
-		tab->ray_spr.drawStartX = -tab->sprites.width / 2 + tab->ray_spr.spriteScreenX;
-		if (tab->ray_spr.drawStartX < 0) tab->ray_spr.drawStartX = 0;
-		tab->ray_spr.drawEndX = tab->sprites.width / 2 + tab->ray_spr.spriteScreenX;
-		if (tab->ray_spr.drawEndX >= W) tab->ray_spr.drawEndX = W - 1;
+		tab->ray_spr.spriteWidth = abs((int) (W / (tab->ray_spr.transformY)));
+		tab->ray_spr.drawStartX = -tab->ray_spr.spriteWidth / 2 + tab->ray_spr.spriteScreenX;
+		if (tab->ray_spr.drawStartX < 0)
+			tab->ray_spr.drawStartX = 0;
+		tab->ray_spr.drawEndX = tab->ray_spr.spriteWidth / 2 + tab->ray_spr.spriteScreenX;
+		if (tab->ray_spr.drawEndX >= W)
+			tab->ray_spr.drawEndX = W;
 
 		//loop through every vertical stripe of the sprite on screen
 		for (int stripe = tab->ray_spr.drawStartX; stripe < tab->ray_spr.drawEndX; stripe++) {
 			tab->ray_spr.texX =
-			(int)(
-			256 * (stripe - (-tab->sprites.width / 2 + tab->ray_spr.spriteScreenX)) * tab->ray_spr.spriteWidth /
-			tab->sprites.width) / 256;
+			(int)(256 * (stripe - (-tab->ray_spr.spriteWidth / 2 + tab->ray_spr.spriteScreenX)) * texWidth / tab->ray_spr.spriteWidth) / 256;
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
@@ -103,9 +102,9 @@ void 	draw_sprites(t_tab *tab)
 				for (int y = tab->ray_spr.drawStartY;
 					 y < tab->ray_spr.drawEndY; y++) //for every pixel of the current stripe
 				{
-					tab->ray_spr.d = (y) * 256 - H * 128 + tab->ray_spr.spriteHeight *
-												  128; //256 and 128 factors to avoid floats
-					tab->ray_spr.texY = ((tab->ray_spr.d * tab->sprites.height) / tab->ray_spr.spriteHeight) / 256;
+					tab->ray_spr.d = (y) * 256 - H * 128 + tab->ray_spr.spriteHeight * 128;
+														//256 and 128 factors to avoid floats
+					tab->ray_spr.texY = ((tab->ray_spr.d * texHeight) / tab->ray_spr.spriteHeight) / 256;
 					tab->ray_spr.color = ft_pixel_take_spr(tab->sprites.spr_img, tab->ray_spr.texX, tab->ray_spr.texY); //get current color from the texture
 					if ((int)(*tab->ray_spr.color) != 0x000000) // & 0x00FFFFFF) != 0)
 						my_mlx_pixel_put(tab, stripe, y, (int)(*tab->ray_spr.color));
@@ -118,7 +117,7 @@ void 	draw_sprites(t_tab *tab)
 void 	get_img_spr(t_tab *tab)
 {
 	if (!(tab->sprites.spr_img.img = mlx_xpm_file_to_image(tab->data.mlx,\
-	tab->prms.paths.obj, &tab->sprites.width, &tab->sprites.height)))
+	tab->prms.paths.obj, &tab->ray_spr.spriteWidth, &tab->ray_spr.spriteHeight)))
 		exit (0);
 }
 
