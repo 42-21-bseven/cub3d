@@ -15,18 +15,28 @@ int parse_map(t_tab *tab, char *str, t_list **map)
 
 int search_map(t_tab *tab, char *str)
 {
-	if (!str || *str == '\0')
-		return (1);
+	int k;
+
+	k = 0;
+//	if (!str || *str == '\0')
+//		return (1);
 	while (*str)
 	{
-		if (*str == 32)
+		if (*str == 32 && ++k)
 			str++;
 		else if (*str == '1')
 			return (tab->flags.map = 1);
 		else
 			return (tab->check_flag = 0);
 	}
-	return (0);
+	if (k == 0)
+	{
+		if (tab->flags.map == 1 && (tab->flags.map = 3))
+			return (1);
+		if (tab->flags.map == 3)
+			return (put_error("ERROR\nInvalid map\n"));
+	}
+	return (tab->flags.map = 1);
 }
 
 void how_list_size(t_tab *tab, t_list *map)

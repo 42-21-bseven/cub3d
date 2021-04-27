@@ -83,13 +83,13 @@ int parse_clrs_f (t_tab *tab, char **str)
 	if (**str != '\0')
 		if ((**str != 32) || (*(++(*str)) != 0))
 			return (-1 + (tab->check_flag = put_error(err)));
-	if (range_clr (tab->prms.clrs.floor_r, tab->prms.clrs.floor_g,
-				   tab->prms.clrs.floor_b))
+	if (range_clr(tab->prms.clrs.floor_r, tab->prms.clrs.floor_g,
+				tab->prms.clrs.floor_b))
 		return (-1 + (tab->check_flag = put_error(err)));
 	return (tab->flags.floor = 1);
 }
 
-int parse_clrs_c (t_tab *tab, char **str)
+int	parse_clrs_c(t_tab *tab, char **str)
 {
 	char *err;
 
@@ -107,8 +107,8 @@ int parse_clrs_c (t_tab *tab, char **str)
 	if (**str != '\0')
 		if ((**str != 32) || (*(++(*str)) != 0))
 			return (-1 + (tab->check_flag = put_error(err)));
-	if (range_clr (tab->prms.clrs.ceil_r, tab->prms.clrs.ceil_g,
-				   tab->prms.clrs.ceil_b))
+	if (range_clr(tab->prms.clrs.ceil_r, tab->prms.clrs.ceil_g,
+				tab->prms.clrs.ceil_b))
 		return (-1 + (tab->check_flag = put_error(err)));
 	return (tab->flags.ceil = 1);
 }

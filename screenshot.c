@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   screenshot.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bseven <bseven@student.21-school.>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/27 20:22:45 by bseven            #+#    #+#             */
+/*   Updated: 2021/04/27 20:22:55 by bseven           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./cub3d.h"
 
-void 	header_for_bmp(int fd, int file_size)
+void	header_for_bmp(int fd, int file_size)
 {
 	unsigned char	header[14];
 
@@ -15,7 +27,7 @@ void 	header_for_bmp(int fd, int file_size)
 	write(fd, header, 14);
 }
 
-void 	bmp_info(int fd, t_tab *tab)
+void	bmp_info(int fd, t_tab *tab)
 {
 	unsigned char	bmp_info[40];
 
@@ -34,7 +46,7 @@ void 	bmp_info(int fd, t_tab *tab)
 	write(fd, bmp_info, 40);
 }
 
-void 	fr_screenshot(t_tab *tab)
+void	fr_screenshot(t_tab *tab)
 {
 	int fd;
 	int	file_size;
