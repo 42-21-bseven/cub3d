@@ -33,12 +33,12 @@ void	for_scroll_right(t_tab *tab)
 	if (tab->a.arr[(int)(tab->pers.pos_x + tab->pers.dir_y * 0.17)]
 		[(int)(tab->pers.pos_y)] == '0')
 	{
-		tab->pers.pos_x += tab->pers.dir_y * 0.06;
+		tab->pers.pos_x += tab->pers.dir_y * 0.08;
 	}
 	if (tab->a.arr[(int)(tab->pers.pos_x)]
 		[(int)(tab->pers.pos_y - tab->pers.dir_x * 0.17)] == '0')
 	{
-		tab->pers.pos_y -= tab->pers.dir_x * 0.06;
+		tab->pers.pos_y -= tab->pers.dir_x * 0.08;
 	}
 }
 
@@ -47,11 +47,11 @@ void	for_scroll_left(t_tab *tab)
 	if (tab->a.arr[(int)(tab->pers.pos_x - tab->pers.dir_y * 0.17)]
 		[(int)(tab->pers.pos_y)] == '0')
 	{
-		tab->pers.pos_x -= tab->pers.dir_y * 0.06;
+		tab->pers.pos_x -= tab->pers.dir_y * 0.08;
 	}
 	if (tab->a.arr[(int)(tab->pers.pos_x)]
 		[(int)(tab->pers.pos_y + tab->pers.dir_x * 0.17)] == '0')
 	{
-		tab->pers.pos_y += tab->pers.dir_x * 0.06;
+		tab->pers.pos_y += tab->pers.dir_x * 0.08;
 	}
 }
