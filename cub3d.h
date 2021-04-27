@@ -231,11 +231,15 @@ typedef struct		s_tab
 }					t_tab;
 
 void				cut_space(char **str);
+
+void ft_create_parse(t_tab *tab, char *line, t_list **map, int fd);
+
 int					parse_param (t_tab *tab, char *line);
 int					parse_rsltn (t_tab *tab, char **str);
 int					check_place (t_tab *tab, char **str);
 int					parse_clrs_c (t_tab *tab, char **str);
 int					parse_clrs_f (t_tab *tab, char **str);
+int 				get_count(t_tab *tab);
 
 int					snd_lit_check(t_tab *tab, char *str);
 int					char_check (char **str);
@@ -265,14 +269,27 @@ void				free_struct(t_tab *tab);
 void 	get_addr(t_tab *tab);
 void 	get_img(t_tab *tab);
 
+//draw
 void		draw(t_tab *tab);
 void	color_convert(t_tab *tab);
 void	draw_floor_ceil(t_tab *tab);
 unsigned int  *ft_pixel_take(t_wall_info tex, int x, int y);
+void 		perf_dda(t_tab *tab);
+void 		calc_perpend_ray(t_tab *tab);
+void		calc_line_texture_draw(t_tab *tab);
+void 		calc_size_texture(t_tab *tab, int x);
+
+
+
+//sprites
+void 	translate_and_transform(t_tab *tab, int i);
+void 	calc_line_texture_sprite(t_tab *tab);
+void 		perf_dda_sprite(t_tab *tab);
 
 void	pers_orient(t_tab *tab);
 void	pers_orient_2(t_tab *tab);
 
+//move
 int		ft_move(t_tab *tab);
 int		ft_press(int key, t_tab *tab);
 int		ft_unpress(int key, t_tab *tab);
@@ -302,8 +319,10 @@ void 		calc_len_ray(t_tab *tab);
 void 		calc_step_and_side_dist(t_tab *tab);
 void 		perf_dda(t_tab *tab);
 
+void		raycast_or_screen(t_tab *tab, int argc, char **argv);
 
 void 	fr_screenshot(t_tab *tab);
+void 	screen_size(t_tab *tab);
 
 int 	ft_close(void);
 
