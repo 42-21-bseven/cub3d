@@ -4,8 +4,8 @@
 # include "gnl_cub3d/get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
-//# include "minilibx/mlx.h"
-#include "./minilibx_opengl_20191021/mlx.h"
+# include "minilibx/mlx.h"
+//#include "./minilibx_opengl_20191021/mlx.h"
 # include <math.h>
 # define W tab->prms.rsltn.x
 # define H tab->prms.rsltn.y
@@ -227,6 +227,7 @@ typedef struct		s_tab
 	t_sprites sprites;
 	t_ray_spr ray_spr;
 	t_img *img;
+	int 			screen;
 }					t_tab;
 
 void				cut_space(char **str);
@@ -286,16 +287,25 @@ void	initial_sprites(t_tab *tab);
 void 	bubble_sort(t_spr *tab, int count);
 void 	calc_distance(t_tab *tab);
 
-void 	draw_sprites(t_tab *tab);
 unsigned int  *ft_pixel_take_spr(t_img spr_img, int x, int y);
 void            my_mlx_pixel_put(t_tab *tab, int x, int y, int color);
 void 	draw_sprites(t_tab *tab);
 void 	get_img_spr(t_tab *tab);
 void 	get_addr_spr(t_tab *tab);
 
+void 	for_mlx_initial_window(t_tab *tab);
+void 	for_mlx_loop_hook(t_tab *tab);
+void 	for_sprite_draw(t_tab *tab);
+
+void 		calc_pos_and_direct(t_tab *tab, int x);
+void 		calc_len_ray(t_tab *tab);
+void 		calc_step_and_side_dist(t_tab *tab);
+void 		perf_dda(t_tab *tab);
+
+
 void 	fr_screenshot(t_tab *tab);
 
-
+int 	ft_close(void);
 
 #endif
 

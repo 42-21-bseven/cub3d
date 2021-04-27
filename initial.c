@@ -38,6 +38,7 @@ void	initial_move(t_tab *tab)
 	tab->move.scroll_right = 0;
 	tab->move.scroll_left = 0;
 	tab->move.close = 0;
+	tab->screen = 0;
 	initial_sprites(tab);
 }
 

@@ -31,7 +31,7 @@ void 	bmp_info(int fd, t_tab *tab)
 	bmp_info[11] = (unsigned char)(tab->prms.rsltn.y >> 24);
 	bmp_info[12] = (unsigned char)(1);
 	bmp_info[14] = (unsigned char)(32);
-	write(fd, bmp_info, 14);
+	write(fd, bmp_info, 40);
 }
 
 void 	fr_screenshot(t_tab *tab)
@@ -51,11 +51,13 @@ void 	fr_screenshot(t_tab *tab)
 	header_for_bmp(fd, file_size);
 	bmp_info(fd, tab);
 	height = tab->prms.rsltn.y;
-	len_line = tab->prms.rsltn.x * tab->img->bpp / 8;
+	len_line = tab->prms.rsltn.x * tab->data.bits_per_pixel / 8;
 	while (height > -1)
 	{
-		write(fd, (unsigned char *)(tab->img->addr + height * tab->img->line_l), len_line);
+		write(fd, (unsigned char *)(tab->data.addr + height * \
+		tab->data.line_length), len_line);
 		height--;
 	}
 	close(fd);
+	ft_close();
 }

@@ -91,7 +91,6 @@ int		ft_move(t_tab *tab)
 		for_scroll_left(tab);
 	if (tab->move.scroll_right)
 		for_scroll_right(tab);
-	draw_floor_ceil(tab);
 	draw(tab);
 	return (0);
 }
