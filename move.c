@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bseven <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/28 03:45:50 by bseven            #+#    #+#             */
+/*   Updated: 2021/04/28 03:45:58 by bseven           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./cub3d.h"
 
 int		ft_press(int key, t_tab *tab)
@@ -16,7 +28,6 @@ int		ft_press(int key, t_tab *tab)
 		tab->move.scroll_left = 1;
 	if (key == 53)
 		exit(0);
-	printf("KEY %d\n", key);
 	return (1);
 }
 
@@ -37,54 +48,48 @@ int		ft_unpress(int key, t_tab *tab)
 	return (1);
 }
 
-void 	for_rotate_right(t_tab *tab)
+void	for_rotate_right(t_tab *tab)
 {
-	double rotSpeed;
+	double	rot_speed;
 
-	rotSpeed = 0.025;
-	//both camera direction and camera plane must be rotated
+	rot_speed = 0.025;
 	tab->ray.old_dir_x = tab->pers.dir_x;
-	tab->pers.dir_x = \
-		tab->pers.dir_x * cos(-rotSpeed) - tab->pers.dir_y * sin(-rotSpeed);
-	tab->pers.dir_y = \
-		tab->ray.old_dir_x * sin(-rotSpeed) + tab->pers.dir_y * cos(-rotSpeed);
+	tab->pers.dir_x = tab->pers.dir_x \
+			* cos(-rot_speed) - tab->pers.dir_y * sin(-rot_speed);
+	tab->pers.dir_y = tab->ray.old_dir_x \
+			* sin(-rot_speed) + tab->pers.dir_y * cos(-rot_speed);
 	tab->ray.old_plane_x = tab->pers.plane_x;
-	tab->pers.plane_x = \
-		tab->pers.plane_x * cos(-rotSpeed) - tab->pers.plane_y * sin(-rotSpeed);
+	tab->pers.plane_x = tab->pers.plane_x \
+			* cos(-rot_speed) - tab->pers.plane_y * sin(-rot_speed);
 	tab->pers.plane_y = tab->ray.old_plane_x \
-		* sin(-rotSpeed) + tab->pers.plane_y * cos(-rotSpeed);
+			* sin(-rot_speed) + tab->pers.plane_y * cos(-rot_speed);
 }
 
-void 	for_rotate_left(t_tab *tab)
+void	for_rotate_left(t_tab *tab)
 {
-	double rotSpeed;
+	double	rot_speed;
 
-	rotSpeed = 0.025;
-	//both camera direction and camera plane must be rotated
+	rot_speed = 0.025;
 	tab->ray.old_dir_x = tab->pers.dir_x;
 	tab->pers.dir_x = \
-		tab->pers.dir_x * cos(rotSpeed) - tab->pers.dir_y * sin(rotSpeed);
+		tab->pers.dir_x * cos(rot_speed) - tab->pers.dir_y * sin(rot_speed);
 	tab->pers.dir_y = \
-		tab->ray.old_dir_x * sin(rotSpeed) + tab->pers.dir_y * cos(rotSpeed);
+		tab->ray.old_dir_x * sin(rot_speed) + tab->pers.dir_y * cos(rot_speed);
 	tab->ray.old_plane_x = tab->pers.plane_x;
 	tab->pers.plane_x = \
-		tab->pers.plane_x * cos(rotSpeed) - tab->pers.plane_y * sin(rotSpeed);
-	tab->pers.plane_y = \
-		tab->ray.old_plane_x * sin(rotSpeed) + tab->pers.plane_y * cos(rotSpeed);
+		tab->pers.plane_x * cos(rot_speed) - tab->pers.plane_y * sin(rot_speed);
+	tab->pers.plane_y = tab->ray.old_plane_x \
+		* sin(rot_speed) + tab->pers.plane_y * cos(rot_speed);
 }
 
 int		ft_move(t_tab *tab)
 {
-//	printf("KEY %d\n", key);
-	if(tab->move.up)
+	if (tab->move.up)
 		for_move_up(tab);
-	//move backwards if no wall behind you
-	if(tab->move.down)
+	if (tab->move.down)
 		for_move_down(tab);
-	//rotate to the right
 	if (tab->move.right)
 		for_rotate_right(tab);
-	//rotate to the left
 	if (tab->move.left)
 		for_rotate_left(tab);
 	if (tab->move.scroll_left)

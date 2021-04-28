@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_add.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bseven <bseven@student.21-school.>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/28 03:57:01 by bseven            #+#    #+#             */
+/*   Updated: 2021/04/28 03:57:04 by bseven           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void str_to_str(void *srcs, char *dest, int len)
+void	str_to_str(void *srcs, char *dest, int len)
 {
 	char	*temp;
-	int 	i;
+	int		i;
 
 	temp = (char *)srcs;
 	i = 0;
@@ -19,7 +31,6 @@ void str_to_str(void *srcs, char *dest, int len)
 
 void	pers_orient(t_tab *tab)
 {
-
 	if (tab->pers.orient == 'N')
 	{
 		tab->pers.dir_x = -1.0;
@@ -53,5 +64,3 @@ void	pers_orient_2(t_tab *tab)
 		tab->pers.plane_y = 0.00;
 	}
 }
-
-

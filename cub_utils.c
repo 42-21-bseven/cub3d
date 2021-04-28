@@ -1,15 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bseven <bseven@student.21-school.>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/28 05:17:32 by bseven            #+#    #+#             */
+/*   Updated: 2021/04/28 05:17:35 by bseven           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./cub3d.h"
 
-int get_count(t_tab *tab)
+int		get_count(t_tab *tab)
 {
-	return (tab->flags.obj + tab->flags.we + tab->flags.ea + tab->flags.so +
-			tab->flags.no + tab->flags.rsltn + tab->flags.floor + tab->flags.ceil);
+	return (tab->flags.obj + tab->flags.we + tab->flags.ea \
+				+ tab->flags.so + tab->flags.no + tab->flags.rsltn \
+										+ tab->flags.floor + tab->flags.ceil);
 }
 
-void ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
+void	ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
 {
 	while (tab->check_flag && get_count(tab) != 8 && get_next_line(fd, &line))
 	{
+		cut_space(&line);
 		parse_param(tab, line);
 		free(line);
 		line = NULL;
@@ -22,7 +36,7 @@ void ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
 		parse_map(tab, line, map);
 }
 
-void screen_size(t_tab *tab)
+void	screen_size(t_tab *tab)
 {
 	int x;
 	int y;
@@ -46,7 +60,7 @@ void screen_size(t_tab *tab)
 	}
 }
 
-int 	ft_close(void)
+int		ft_close(void)
 {
 	exit(0);
 }

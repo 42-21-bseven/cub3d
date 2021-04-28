@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bseven <bseven@student.21-school.>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/28 03:56:37 by bseven            #+#    #+#             */
+/*   Updated: 2021/04/28 03:56:41 by bseven           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int parse_map(t_tab *tab, char *str, t_list **map)
+int		parse_map(t_tab *tab, char *str, t_list **map)
 {
 	if (search_map(tab, str) && tab->flags.map != 1)
 		return (-1 + (tab->check_flag = 0));
@@ -13,13 +25,11 @@ int parse_map(t_tab *tab, char *str, t_list **map)
 	return (0);
 }
 
-int search_map(t_tab *tab, char *str)
+int		search_map(t_tab *tab, char *str)
 {
 	int k;
 
 	k = 0;
-//	if (!str || *str == '\0')
-//		return (1);
 	while (*str)
 	{
 		if (*str == 32 && ++k)
@@ -39,12 +49,11 @@ int search_map(t_tab *tab, char *str)
 	return (tab->flags.map = 1);
 }
 
-void how_list_size(t_tab *tab, t_list *map)
+void	how_list_size(t_tab *tab, t_list *map)
 {
 	tab->iters.n = 0;
 	tab->lst_len = 0;
 	tab->lst_size = 0;
-
 	while (map)
 	{
 		if ((tab->iters.n = ft_strlen((char *)map->content)) > tab->lst_len)
@@ -56,21 +65,21 @@ void how_list_size(t_tab *tab, t_list *map)
 	tab->lst_len += 2;
 }
 
-int mem_for_map(t_tab *tab)
+int		mem_for_map(t_tab *tab)
 {
 	tab->iters.i = 0;
-	if (!(tab->a.arr = ft_calloc(tab->lst_size + 1, sizeof (char *))))
+	if (!(tab->a.arr = ft_calloc(tab->lst_size + 1, sizeof(char *))))
 		return (-1 + (tab->check_flag = 0));
 	while (tab->iters.i < tab->lst_size)
 	{
 		if (!(tab->a.arr[tab->iters.i++] =
-					  ft_calloc(tab->lst_len + 1, sizeof (char))))
+					ft_calloc(tab->lst_len + 1, sizeof(char))))
 			return (-1 + (tab->check_flag = 0));
 	}
 	return (1);
 }
 
-void map_to_array(t_tab *tab, t_list *map)
+void	map_to_array(t_tab *tab, t_list *map)
 {
 	tab->iters.i = 0;
 	while (tab->iters.i < tab->lst_size - 1)
