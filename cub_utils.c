@@ -34,6 +34,7 @@ void	ft_create_parse(t_tab *tab, char *line, t_list **map, int fd)
 	}
 	if (tab->check_flag)
 		parse_map(tab, line, map);
+	free(line);
 }
 
 void	screen_size(t_tab *tab)

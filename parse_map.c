@@ -79,9 +79,12 @@ int		mem_for_map(t_tab *tab)
 	return (1);
 }
 
-void	map_to_array(t_tab *tab, t_list *map)
+void	map_to_array(t_tab *tab, t_list *list)
 {
+	t_list *map;
+
 	tab->iters.i = 0;
+	map = list;
 	while (tab->iters.i < tab->lst_size - 1)
 	{
 		if (tab->iters.i == 0)
@@ -94,4 +97,5 @@ void	map_to_array(t_tab *tab, t_list *map)
 		tab->iters.i++;
 	}
 	str_to_str("\0", tab->a.arr[tab->iters.i], tab->lst_len);
+	free_list(&list);
 }
